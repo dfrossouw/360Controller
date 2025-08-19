@@ -29,7 +29,7 @@
 
 ## About
 
-**As of December 28, 2020, there are not plans to add Big Sur support, including Apple Silicon support. It will most likely not work on Big Sur.**
+**NEW: System Extension Support** - This driver now includes modern system extension support using DriverKit framework alongside the traditional kernel extension for better compatibility with recent macOS versions.
 
 This driver supports the Microsoft Xbox series of controllers including:
 
@@ -51,7 +51,17 @@ Controller support includes ALL devices that work with an Xbox series piece of h
 This project is a fork of the [Xbox360Controller project](http://tattiebogle.net/index.php/ProjectRoot/Xbox360Controller) originally created by Colin Munro.
 
 ## Installation
-See the [releases page](https://github.com/360Controller/360Controller/releases) for the latest compiled and signed version of the driver. Most users will want to run this installer. If you are using macOS 10.13.4 or later, then you will have to allow the signing certificate of "Drew Mills" in order for the software to run. Usually, the installer will prompt you to complete this process:
+See the [releases page](https://github.com/360Controller/360Controller/releases) for the latest compiled and signed version of the driver. Most users will want to run this installer. 
+
+### Which Driver Should I Use?
+
+- **macOS 10.15+ (Catalina and later)**: Use the **system extension** version (recommended)
+- **macOS 10.14 and earlier**: Use the **kernel extension** version
+- **If unsure**: The installer will automatically select the appropriate version for your system
+
+### Installation Process
+
+If you are using macOS 10.13.4 or later, then you will have to allow the signing certificate of "Drew Mills" in order for the software to run. Usually, the installer will prompt you to complete this process:
 ![System prompt: System Extension Blocked](https://imgur.com/zXM5JlU.png)
 You can either click "Open Security Preferences" to quickly fix this. If you didn't see this prompt, you can navigate to the same window using the Apple menu in the top left hand corner of your screen, navigating the "System Preferences" and then clicking on "Security & Privacy." This will open up the following page. All you need to do is click the "Allow" button near the bottom right.
 ![Security & Privacy Preference Pane displaying prompt to user: System software from user "Drew Mills" was blocked from loading](https://imgur.com/HrL77Ii.png)
@@ -108,24 +118,48 @@ The Xbox One adaptive controller can connect to your macOS machine through eithe
 First, [disable signing requirements](#disabling-signing-requirements) so that you can run your custom build with your third party controller added. Then edit `360Controller/360Controller/Info.plist`. Add your controller following the pattern of pre-existing controllers by adding your vendor and product IDs to a new entry. After this, follow the information in the [building](#building) section, following the "If you don't have a signing certificate" path to build your new .kext. Then, place your shiny new `360Controller.kext` in to `/Library/Extensions` over the old one. You may need to take ownership of the driver in order for it to operate properly. You can do this with `sudo chown -R root:wheel /Library/Extensions/360Controller.kext`. Then, to make sure everything went according to plan, run `sudo kextutil /Library/Extensions/360Controller.kext`. This will load your kext into the OS and you should be able to use your controller. Once you reboot, your custom driver should be loaded automatically.
 
 ## Developer Info
-Drivers inherently modify the core operating system kernel. Using the driver as a developer can lead to dangerous kernel panics that can cause data loss or other permanent damage to your computer. Be very careful about how you use this information. We are not responsible for anything this driver does to your computer, or any loss it may incur. Normal users will never have to worry about the developer section of this README.
+This driver now supports both kernel extensions (legacy) and system extensions (modern DriverKit). System extensions run in user space and are safer than kernel extensions, but require macOS 10.15 or later. Kernel extensions still work on older macOS versions but may require disabling security features. Be very careful about how you use this information. We are not responsible for anything this driver does to your computer, or any loss it may incur. Normal users will never have to worry about the developer section of this README.
 
 ### Building
 
-##### Apple has recently changed how drivers work in Xcode 7. In order to build the driver, you will need Xcode 6.4 or earlier.
-Additionally, to use the included build scripts, you will need to change your preferred Xcode installation using `xcode-select`.
+##### You can now build both kernel extensions (legacy) and system extensions (modern DriverKit framework).
 
-##### You must have a signing certificate to install a locally built driver. Alternatively, you can disable driver signing on your machine, however this is a major security hole and the decision should not be taken lightly.
+##### You must have a signing certificate to install a locally built driver. System extensions require additional entitlements for DriverKit. Alternatively, you can disable driver signing on your machine for kernel extensions, however this is a major security hole and the decision should not be taken lightly.
 
 You will need a full installation of Xcode to build this project. The command line tools are not enough.
 
-The project consists of three main parts: The driver (implemented in C++, as an I/O Kit C++ class), the force feedback plugin (implemented in C, as an I/O Kit COM plugin) and the preference pane (implemented in Objective C as a preference pane plugin). To build, use the standard Xcode build for Deployment on each of the 3 projects. Build Feedback360 before 360Controller, as the 360Controller project includes a script to copy the Feedback360 bundle to the correct place in the .kext to make it work.
+#### Building Options:
 
-To debug the driver, `sudo cp -R 360Controller.kext /tmp/` to assign the correct properties - note that the Force Feedback plugin only seems to be found by OSX if the driver is in /System/Library/Extensions so it can only be debugged in place. Due to the fact that drivers are now stored in /Library/Extenions, this means that you must create a symlink between the location of the driver and /System/Library/Extensions so that the force feedback plugin can operate properly.
+1. **System Extension (Recommended for macOS 10.15+)**: Uses DriverKit framework, runs in user space, more secure
+2. **Kernel Extension (Legacy)**: Traditional IOKit driver, required for older macOS versions
+
+Use the new build script:
+```
+./build-system-extension.sh [kext|dext|both]
+```
+
+The project consists of:
+- **Kernel Extension**: The original driver (C++, IOKit), force feedback plugin (C, IOKit COM plugin) 
+- **System Extension**: Modern DriverKit-based driver (C++, DriverKit USB/HID frameworks)
+- **Preference Pane**: Configuration interface (Objective C)
+- **Daemon**: Background service for controller management
+
+To debug the kernel extension driver, `sudo cp -R 360Controller.kext /tmp/` to assign the correct properties. For system extensions, use standard Xcode debugging tools as they run in user space.
 
 ### Building the .pkg
 
 In order to build the .pkg, you will need to install [Packages.app](http://s.sudre.free.fr/Software/Packages/about.html).
+
+### System Extension Requirements
+
+For system extension support (macOS 10.15+), you need:
+
+1. **DriverKit Entitlements**: Your Apple Developer account must have DriverKit entitlements
+2. **Proper Code Signing**: System extensions require specific entitlements and provisioning
+3. **User Approval**: System extensions require explicit user approval during installation
+4. **macOS 10.15+**: System extensions are only available on Catalina and later
+
+The system extension provides the same functionality as the kernel extension but runs in user space for improved security and stability.
 
 #### If you don't have a signing certificate
 
