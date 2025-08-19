@@ -200,6 +200,13 @@ This driver now supports both Intel x86_64 and Apple Silicon ARM64 architectures
 
 When you build the driver using `./build.sh`, it will create universal binaries that work on both Intel and Apple Silicon Macs. You can verify the architectures by examining the lipo output that the build script displays.
 
+**To verify your ARM64 configuration is correct:**
+```bash
+./verify-arm64-config.sh
+```
+
+This script will check that all ARM64 settings are properly configured before you attempt to build.
+
 ### Debugging the driver
 
 Debugging the driver depends on which part you intend to debug. For the 360Controller driver itself, it uses `IOLog` to output to the `system.log` which can be accessed using Console.app. Feedback360 uses `fprintf(stderr, ...)`, which should appear within the console of the program attempting to use force feedback.

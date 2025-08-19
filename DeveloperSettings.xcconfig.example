@@ -1,0 +1,30 @@
+// Example Developer Settings for 360Controller
+// Copy this file to DeveloperSettings.xcconfig and update with your own signing information
+
+// Development team ID from your Apple Developer account
+// Find this in your Apple Developer account under "Membership"
+DEVELOPMENT_TEAM = XXXXXXXXXX
+
+// Developer name as it appears on your Developer ID certificates
+// This should match exactly what appears in Keychain Access
+DEVELOPER_NAME = First Last
+
+// Email address associated with your Apple Developer account
+DEVELOPER_EMAIL = your.email@example.com
+
+// App-specific password generated for notarization
+// Generate this in your Apple ID account settings under "App-Specific Passwords"
+NOTARIZATION_PASSWORD = abcd-efgh-ijkl-mnop
+
+// ARM64 support requires macOS 11.0 or later
+// You can set this to a higher version if needed (e.g., 12.0, 13.0)
+MACOSX_DEPLOYMENT_TARGET = 11.0
+
+// Support both Intel x86_64 and Apple Silicon arm64
+// This creates universal binaries that work on both architectures
+ARCHS = x86_64 arm64
+VALID_ARCHS = x86_64 arm64
+
+// Optional: Uncomment to build only for the active architecture during development
+// This speeds up builds but creates architecture-specific binaries
+// ONLY_ACTIVE_ARCH = YES
