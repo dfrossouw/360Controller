@@ -169,3 +169,8 @@ xcuserdata
 builds/
 *.dmg
 *.dmg.zip
+
+# System extension build artifacts
+*.dext
+360ControllerSystemExtension.xcodeproj/
+SystemExtensionBuild/
