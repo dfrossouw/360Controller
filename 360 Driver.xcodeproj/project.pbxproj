@@ -1378,7 +1378,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 62DD3D4920C044980073EC19 /* DeveloperSettings.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1412,7 +1411,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 62DD3D4920C044980073EC19 /* DeveloperSettings.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1660,7 +1658,6 @@
 			baseConfigurationReference = 62DD3D4920C044980073EC19 /* DeveloperSettings.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				EXPORTED_SYMBOLS_FILE = Feedback360/Feedback360.exp;
@@ -1679,7 +1676,6 @@
 			baseConfigurationReference = 62DD3D4920C044980073EC19 /* DeveloperSettings.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
