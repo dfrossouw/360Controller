@@ -1,0 +1,21 @@
+// Developer Settings for 360Controller
+// Update these values with your own signing information
+
+// Development team ID from your Apple Developer account
+DEVELOPMENT_TEAM = XXXXXXXXXX
+
+// Developer name as it appears on your Developer ID certificates
+DEVELOPER_NAME = First Last
+
+// Email address associated with your Apple Developer account
+DEVELOPER_EMAIL = your.email@example.com
+
+// App-specific password generated for notarization
+NOTARIZATION_PASSWORD = abcd-efgh-ijkl-mnop
+
+// ARM64 support requires macOS 11.0 or later
+MACOSX_DEPLOYMENT_TARGET = 11.0
+
+// Support both Intel x86_64 and Apple Silicon arm64
+ARCHS = x86_64 arm64
+VALID_ARCHS = x86_64 arm64

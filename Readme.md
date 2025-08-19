@@ -147,6 +147,9 @@ In order to build the .pkg, you will need to install [Packages.app](http://s.sud
    * `DEVELOPER_NAME = First Last` where `First Last` is the name on the Developer ID Installer certificate.
    * `DEVELOPER_EMAIL = my.address@email.com` where `my.address@email.com` is the email address of your Apple account that has your Developer ID Application and Installer certificates.
    * `NOTARIZATION_PASSWORD = abcd-efgh-ijkl-mnop` where `abcd-efgh-ijkl-mnop` is a temporary password that you have generated for your Apple account for the purposes of notarization.
+   * `MACOSX_DEPLOYMENT_TARGET = 11.0` (or your preferred minimum macOS version)
+   * `ARCHS = x86_64 arm64` to build universal binaries for both Intel and Apple Silicon
+   * `VALID_ARCHS = x86_64 arm64` to specify supported architectures
 
 ### Disabling signing requirements
 
@@ -186,6 +189,23 @@ This is only possible if you have a signing certificate, but it is a relatively 
 * This should finish with the message: `The validate action worked!`
 
 Then you can distribute the notarized and stapled version of the driver.
+
+### ARM64 Support (Apple Silicon)
+
+This driver now supports both Intel x86_64 and Apple Silicon ARM64 architectures. The ARM64 support requires:
+
+* macOS 11.0 Big Sur or later (minimum version for Apple Silicon support)
+* Xcode with ARM64 development tools
+* The `DeveloperSettings.xcconfig` file automatically configures both architectures
+
+When you build the driver using `./build.sh`, it will create universal binaries that work on both Intel and Apple Silicon Macs. You can verify the architectures by examining the lipo output that the build script displays.
+
+**To verify your ARM64 configuration is correct:**
+```bash
+./verify-arm64-config.sh
+```
+
+This script will check that all ARM64 settings are properly configured before you attempt to build.
 
 ### Debugging the driver
 

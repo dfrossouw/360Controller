@@ -17,6 +17,8 @@
 
 # Xcode configuration files used for storing developer information
 *.xcconfig
+# Allow the template DeveloperSettings.xcconfig file
+!DeveloperSettings.xcconfig
 
 #####
 # OS X temporary files that should never be committed
