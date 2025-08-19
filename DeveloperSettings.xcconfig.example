@@ -1,0 +1,21 @@
+# Example DeveloperSettings.xcconfig for System Extension Support
+# Copy this to DeveloperSettings.xcconfig and update with your developer information
+
+# Your Apple Developer Team ID
+DEVELOPMENT_TEAM = XXXXXXXXXX
+
+# Your name as it appears on the Developer ID certificates
+DEVELOPER_NAME = First Last
+
+# Your Apple ID email for notarization
+DEVELOPER_EMAIL = your.email@example.com
+
+# App-specific password for notarization (generate this in Apple ID settings)
+NOTARIZATION_PASSWORD = abcd-efgh-ijkl-mnop
+
+# Required for System Extensions - must have DriverKit entitlements
+CODE_SIGN_IDENTITY = Developer ID Application: First Last (XXXXXXXXXX)
+
+# Additional settings for system extension
+SYSTEM_EXTENSION_BUNDLE_ID = com.mice.driver.Xbox360ControllerSystemExtension
+DRIVERKIT_MINIMUM_VERSION = 20.0
